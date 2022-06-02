@@ -4,8 +4,8 @@ from django.contrib.auth.models import User
 
 class CustomUserModel(models.Model):
     GENDERS = (
-        ('F', 'female'),
-        ('M', 'male'),
+        ('F', 'Female'),
+        ('M', 'Male'),
     )
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     age = models.PositiveIntegerField()
