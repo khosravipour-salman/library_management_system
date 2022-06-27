@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Complete Profile</title>
+	{% load widget_tweaks %}
+</head>
+<body>
+
+<form method="POST">
+	{% csrf_token %}
+	{% for field in form %}
+		{% if field.label == 'first_name' %}
+			<p>
+				{% render_field field value=request.user.first_name %}
+			</p>
+		{% elif field.label == 'last_name' %}
+			<p>
+				{% render_field field value=request.user.last_name %}
+			</p>
+		{% elif field.label == 'email' %}
+			<p>
+				{% render_field field value=request.user.email %}
+			</p>
+		{% else %}
+			<p>
+				{% render_field field %}
+			</p>
+		{% endif %}
+	{% endfor %}
+	<input type="submit" name="Update">
+</form>
+
+</body>
+</html>

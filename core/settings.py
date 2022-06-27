@@ -37,11 +37,15 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    # Applications
     'loan.apps.LoanConfig',
     'book.apps.BookConfig',
     'accounting.apps.AccountingConfig',
     'author.apps.AuthorConfig',
     'extra.apps.ExtraConfig',
+
+    # Third-party Applications
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [
