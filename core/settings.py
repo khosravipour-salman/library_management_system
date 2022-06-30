@@ -111,7 +111,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Tehran'
 
 USE_I18N = True
 
@@ -138,3 +138,20 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'mailserver.django@gmail.com'
 EMAIL_HOST_PASSWORD = 'dcxtuzyynthxokwi'
+
+
+# Celery configuration
+imports = ("loan.tasks", )
+
+beat_schedule={
+    'my-add-task-schedule': {
+        'task': 'loan.tasks.add_author',
+        'schedule': 3.0, # doostan inm okeye 20.
+    },
+}
+
+# task_serializer = 'json'
+
+timezone='Asia/Tehran'
+
+enable_utc=True
