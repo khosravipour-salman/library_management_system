@@ -21,7 +21,7 @@ class BookModel(models.Model):
     category = models.ManyToManyField("extra.CategoryModel", related_name='books')
     user = models.ForeignKey(CustomUserModel, on_delete=models.DO_NOTHING, related_name='books')
     active = models.BooleanField()
-    loan = models.ForeignKey("loan.LoanModel", on_delete=models.CASCADE, related_name='books')
+    loan = models.ForeignKey("loan.LoanModel", on_delete=models.CASCADE, related_name='books', blank=True, null=True)
     slug = models.SlugField(unique=True, null=True)
     author = models.ManyToManyField("author.AuthorModel")
     objects = models.Manager()
