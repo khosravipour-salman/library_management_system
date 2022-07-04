@@ -130,7 +130,7 @@ def add_comment(request, book_slug):
 	return render(request, 'book/add_comment.html', {'form': form})
 
 
-def add_to_bookmark(request, book_slug):
+def remove_or_add_to_bookmark(request, book_slug):
 	book_obj = get_object_or_404(BookModel, slug=book_slug)
 	user_obj = CustomUserModel.objects.get(user=request.user)
 
@@ -140,4 +140,13 @@ def add_to_bookmark(request, book_slug):
 	else:
 		bookmark_obj.book.add(book_obj)
 
-	return redirect('book_detail', slug=book_obj.slug)
+	return redirect(request.META.get('HTTP_REFERER'))
+
+
+def bookmark_list(request):
+	user_obj = CustomUserModel.objects.get(user=request.user)
+
+	bookmark_obj = BookmarkModel.objects.get(user=user_obj)
+	books = bookmark_obj.book.all()
+
+	return render(request, 'book/bookmark_list.html', {'obj_list': books})

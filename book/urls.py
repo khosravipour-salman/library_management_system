@@ -9,5 +9,6 @@ urlpatterns = [
 	path('categories/', views.categories, name='categories'), 
 	path('categories/<slug:category_slug>/', views.categories, name='categories_with_param'), 
 	path('<slug:book_slug>/add-comment/', views.add_comment, name='add_comment'),
-	path('add-to-bookmark/<slug:book_slug>/', views.add_to_bookmark, name='add_to_bookmark'),
+	path('bookmark/', views.bookmark_list, name='bookmark_list'),
+	path('add-to-bookmark/<slug:book_slug>/', views.remove_or_add_to_bookmark, name='add_to_bookmark'),
 ]
