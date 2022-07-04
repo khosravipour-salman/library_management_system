@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from accounting.models import CustomUserModel
 from accounting.forms import LoginForm, CompleteProfileForm
 from loan.models import DebtModel
+from book.models import BookmarkModel
 
 
 def sign_up(request):
@@ -18,7 +19,8 @@ def sign_up(request):
         if form.is_valid():
             user_obj = form.save()
             debt_obj = DebtModel.objects.create(amount=0)
-            CustomUserModel.objects.create(user=user_obj, debt=debt_obj)
+            user_obj = CustomUserModel.objects.create(user=user_obj, debt=debt_obj)
+            BookmarkModel.objects.create(user=user_obj)
             return redirect('accounting:sign_in')
     return render(request, 'accounting/sign_up.html', context)
 

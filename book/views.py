@@ -3,7 +3,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q, Count
 from itertools import chain
 from book.forms import AdvanceSearchForm, CommentForm
-from book.models import BookModel
+from book.models import BookModel, BookmarkModel
 from author.models import AuthorModel
 from accounting.models import CustomUserModel
 from extra.models import PublisherModel
@@ -115,7 +115,6 @@ def categories(request, category_slug=None):
 
 def add_comment(request, book_slug):
 	book_obj = get_object_or_404(BookModel, slug=book_slug)
-	print(request.user)
 	user_obj = CustomUserModel.objects.get(user=request.user)
 
 	if request.method == 'POST':
@@ -129,3 +128,16 @@ def add_comment(request, book_slug):
 
 	form = CommentForm()
 	return render(request, 'book/add_comment.html', {'form': form})
+
+
+def add_to_bookmark(request, book_slug):
+	book_obj = get_object_or_404(BookModel, slug=book_slug)
+	user_obj = CustomUserModel.objects.get(user=request.user)
+
+	bookmark_obj = BookmarkModel.objects.get(user=user_obj)
+	if book_obj in bookmark_obj.book.all():
+		bookmark_obj.book.remove(book_obj)
+	else:
+		bookmark_obj.book.add(book_obj)
+
+	return redirect('book_detail', slug=book_obj.slug)

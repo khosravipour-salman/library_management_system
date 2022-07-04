@@ -22,6 +22,7 @@ Detail
 	
 	<hr>
 		<a href="{% url 'add_comment' book_obj.slug %}">Leave a comment</a>
+		<a href="{% url 'add_to_bookmark' book_obj.slug %}">Add to bookmark</a>
 	<hr>
 
 	{% if similar_books %}

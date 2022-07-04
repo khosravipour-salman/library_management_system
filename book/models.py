@@ -42,12 +42,12 @@ class BookModel(models.Model):
 
 class BookmarkModel(models.Model):
     user = models.OneToOneField(CustomUserModel, on_delete=models.CASCADE)
-    book = models.ManyToManyField("book.BookModel")
+    book = models.ManyToManyField("book.BookModel", blank=True)
     create = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f'{self.user.username} has {self.book.count()}'
+        return f'{self.user.user.username} has {self.book.count()} books'
 
 
 class CommentModel(models.Model):
