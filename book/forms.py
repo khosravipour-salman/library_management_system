@@ -1,4 +1,5 @@
 from django import forms
+from book.models import CommentModel
 
 
 class AdvanceSearchForm(forms.Form):
@@ -14,3 +15,12 @@ class AdvanceSearchForm(forms.Form):
 			'bookname_icontain', 'bookname_exact', 'pubname_icontain', 
 			'pubname_exact', 'authorname_icontain', 'authorname_exact', 
 		)
+
+
+class CommentForm(forms.ModelForm):
+	title = forms.CharField()
+	content = forms.Textarea()
+
+	class Meta:
+		model = CommentModel
+		fields = ('title', 'content', )

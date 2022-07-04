@@ -1,10 +1,11 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q, Count
 from itertools import chain
-from book.forms import AdvanceSearchForm
+from book.forms import AdvanceSearchForm, CommentForm
 from book.models import BookModel
 from author.models import AuthorModel
+from accounting.models import CustomUserModel
 from extra.models import PublisherModel
 from extra.models import CategoryModel
 
@@ -110,3 +111,21 @@ def categories(request, category_slug=None):
 	if cat_obj is not None: context.update({'obj_list': cat_obj.books.all()}) 
 
 	return render(request, 'book/categories.html', context)
+
+
+def add_comment(request, book_slug):
+	book_obj = get_object_or_404(BookModel, slug=book_slug)
+	print(request.user)
+	user_obj = CustomUserModel.objects.get(user=request.user)
+
+	if request.method == 'POST':
+		form = CommentForm(request.POST)
+		if form.is_valid():
+			new_form = form.save(commit=False)
+			new_form.user = user_obj
+			new_form.book = book_obj
+			new_form.save()
+			return redirect('book_detail', slug=book_obj.slug)
+
+	form = CommentForm()
+	return render(request, 'book/add_comment.html', {'form': form})

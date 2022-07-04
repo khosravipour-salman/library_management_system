@@ -21,6 +21,8 @@ Detail
 	{% endfor %}
 	
 	<hr>
+		<a href="{% url 'add_comment' book_obj.slug %}">Leave a comment</a>
+	<hr>
 
 	{% if similar_books %}
 		{% for book in similar_books %}

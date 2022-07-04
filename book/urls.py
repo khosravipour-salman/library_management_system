@@ -8,4 +8,5 @@ urlpatterns = [
 	path('advance-search/', views.advance_search, name='advance_search'),
 	path('categories/', views.categories, name='categories'), 
 	path('categories/<slug:category_slug>/', views.categories, name='categories_with_param'), 
+	path('<slug:book_slug>/add-comment/', views.add_comment, name='add_comment'),
 ]
