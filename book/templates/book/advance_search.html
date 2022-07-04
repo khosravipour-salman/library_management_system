@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}
+	Advance-Search
+{% endblock %}
+
+{% block content %}
+	<form method="get" action="{% url 'advance_search' %}">
+		<input type="text" name="bookname_icontain" placeholder="Book Name Contains ...">
+		<input type="text" name="bookname_exact" placeholder="Book Name Exact ...">
+
+		<input type="text" name="pubname_icontain" placeholder="Publisher Name Contains ...">
+		<input type="text" name="pubname_exact" placeholder="Publisher Name Exact ...">
+
+		<input type="text" name="authorname_icontain" placeholder="Author Name Contains ...">
+		<input type="text" name="authorname_exact" placeholder="Author Name Exact ...">
+
+		<input type="submit" value="Search">
+	</form>
+	<hr>
+	
+	{% for book_obj in obj_list %}
+
+		<img src="{{ book_obj.cover.url }}" alt="book_cover">
+		<b>Name: </b>{{ book_obj.name }}
+		<b>Desc: </b>{{ book_obj.desc|truncatewords:10 }}
+		
+		<b>Author: </b>{% for author_obj in book_obj.author.all %}
+			<a href="{% url 'book_list_with_parameter' 'author' author_obj.slug %}">
+				{{ author_obj.name }}
+			</a>{% if not forloop.last %},{% endif %}
+		{% endfor %}
+
+		<b>Translator: </b>{{ book_obj.translator }}
+		<b>Publisher: </b>
+		<a href="{% url 'book_list_with_parameter' 'publisher' book_obj.publisher.slug %}">
+			{{ book_obj.publisher }}
+		</a>
+
+		<b>Category: </b>{% for category_obj in book_obj.category.all %}
+			<a href="{% url 'book_list_with_parameter' 'category' category_obj.slug %}">
+				{{ category_obj.name }}
+			</a>{% if not forloop.last %},{% endif %}
+		{% endfor %}
+		<b>Detail: </b><a href="{{ book_obj.get_absolute_url }}">Link</a>		
+		<hr>
+
+	{% endfor %}
+
+	{% include 'paginator.html' %}
+{% endblock %}

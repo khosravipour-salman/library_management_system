@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Detail
+{% endblock %}
+
+{% block content %}
+	<img src="{{ book_obj.cover.url }}" alt="book_cover">
+	<b>Name: </b>{{ book_obj.name }}
+	<b>Desc: </b>{{ book_obj.desc }}
+	
+	<b>Author: </b>{% for author_obj in book_obj.author.all %}
+		{{ author_obj.name }}{% if not forloop.last %},{% endif %}
+	{% endfor %}
+
+	<b>Translator: </b>{{ book_obj.translator }}
+	<b>Publisher: </b>{{ book_obj.publisher }}
+
+	<b>Category: </b>{% for category_obj in book_obj.category.all %}
+		{{ category_obj.name }}{% if not forloop.last %},{% endif %}
+	{% endfor %}
+
+{% endblock %}

@@ -1,6 +1,13 @@
 from django.db import models
+from django.template.defaultfilters import slugify
+from django.shortcuts import reverse
 from accounting.models import CustomUserModel
 from loan.models import LoanModel
+
+
+class ActiveBooksManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(active=True)
 
 
 class BookModel(models.Model):
@@ -15,6 +22,19 @@ class BookModel(models.Model):
     user = models.ForeignKey(CustomUserModel, on_delete=models.DO_NOTHING, related_name='books')
     active = models.BooleanField()
     loan = models.ForeignKey("loan.LoanModel", on_delete=models.CASCADE, related_name='books')
+    slug = models.SlugField(unique=True, null=True)
+    author = models.ManyToManyField("author.AuthorModel")
+    objects = models.Manager()
+    active_book_manager = ActiveBooksManager()
+
+
+    def get_absolute_url(self):
+        return reverse('book_detail', kwargs={'slug': self.slug})
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        return super().save(*args, **kwargs)
 
     def __str__(self):
         return self.name
