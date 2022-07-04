@@ -21,6 +21,20 @@ Detail
 	{% endfor %}
 	
 	<hr>
+
+	{% if similar_books %}
+		{% for book in similar_books %}
+			<img src="{{ book.cover.url }}" alt="book cover">
+			{{ book.name }}
+			<b>Category: </b>{% for category_obj in book.category.all %}
+				{{ category_obj.name }}{% if not forloop.last %},{% endif %}
+			{% endfor %}
+			<a href="{{ book.get_absolute_url }}">Link</a>
+			<br>
+		{% endfor %}
+	{% endif %}
+	
+	<hr>
 	
 	{% if book_obj.comments.all %}
 		{% for comment in book_obj.comments.all %}

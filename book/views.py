@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.db.models import Q
+from django.db.models import Q, Count
 from itertools import chain
 from book.forms import AdvanceSearchForm
 from book.models import BookModel
@@ -59,8 +59,15 @@ def book_list_with_parameter(request, filter_by, filter_object):
 
 
 def book_detail(request, slug):
+	book_obj = get_object_or_404(BookModel, slug=slug)
+
+	book_category_ids = book_obj.category.values_list('id', flat=True)
+	similar_books = BookModel.active_book_manager.filter(category__in=book_category_ids).exclude(id=book_obj.id)
+	similar_books = similar_books.annotate(same_cats=Count('category')).order_by('-same_cats','-create')[:4]
+
 	context = {
-		'book_obj': get_object_or_404(BookModel, slug=slug),
+		'book_obj': book_obj,
+		'similar_books': similar_books,
 	}
 	return render(request, 'book/detail.html', context)
 
@@ -101,5 +108,5 @@ def categories(request, category_slug=None):
 
 	cat_obj = CategoryModel.objects.get(slug=category_slug) if category_slug else None
 	if cat_obj is not None: context.update({'obj_list': cat_obj.books.all()}) 
-	
+
 	return render(request, 'book/categories.html', context)
