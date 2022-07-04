@@ -6,4 +6,6 @@ urlpatterns = [
 	path('index/<str:filter_by>/<slug:filter_object>/', views.book_list_with_parameter, name='book_list_with_parameter'), 
 	path('detail/<slug:slug>/', views.book_detail, name='book_detail'),
 	path('advance-search/', views.advance_search, name='advance_search'),
+	path('categories/', views.categories, name='categories'), 
+	path('categories/<slug:category_slug>/', views.categories, name='categories_with_param'), 
 ]

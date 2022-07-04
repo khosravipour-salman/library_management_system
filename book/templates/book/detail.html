@@ -19,5 +19,16 @@ Detail
 	<b>Category: </b>{% for category_obj in book_obj.category.all %}
 		{{ category_obj.name }}{% if not forloop.last %},{% endif %}
 	{% endfor %}
-
+	
+	<hr>
+	
+	{% if book_obj.comments.all %}
+		{% for comment in book_obj.comments.all %}
+			<p><b>Username: </b>{{ comment.user.user.username }}</p>
+			<p><b>Title: </b>{{ comment.title }}</p>
+			<p><b>Content: </b>{{ comment.content }}</p>
+			<p><b>Created at: </b>{{ comment.create }}</p>
+			<br>
+		{% endfor %}
+	{% endif %}
 {% endblock %}

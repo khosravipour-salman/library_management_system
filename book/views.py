@@ -60,7 +60,7 @@ def book_list_with_parameter(request, filter_by, filter_object):
 
 def book_detail(request, slug):
 	context = {
-		'book_obj': get_object_or_404(BookModel, slug=slug)
+		'book_obj': get_object_or_404(BookModel, slug=slug),
 	}
 	return render(request, 'book/detail.html', context)
 
@@ -81,7 +81,7 @@ def advance_search(request):
 		search_results = BookModel.active_book_manager.filter(*q_objs)	
 
 	page = request.GET.get('page', 1)
-	paginator = Paginator(search_results.distinct(), 2)
+	paginator = Paginator(search_results.distinct(), 12)
 
 	try:
 		book_obj_list = paginator.page(page)
@@ -91,3 +91,15 @@ def advance_search(request):
 		book_obj_list = paginator.page(paginator.num_pages)
 
 	return render(request, 'book/advance_search.html', {'obj_list': book_obj_list})
+
+
+def categories(request, category_slug=None):
+	category_list = CategoryModel.objects.all()
+	context = {
+		'category_list': category_list,
+	}
+
+	cat_obj = CategoryModel.objects.get(slug=category_slug) if category_slug else None
+	if cat_obj is not None: context.update({'obj_list': cat_obj.books.all()}) 
+	
+	return render(request, 'book/categories.html', context)

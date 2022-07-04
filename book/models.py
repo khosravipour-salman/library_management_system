@@ -18,7 +18,7 @@ class BookModel(models.Model):
     desc = models.TextField()
     translator = models.CharField(max_length=42)
     publisher = models.ForeignKey("extra.PublisherModel", related_name='books', on_delete=models.CASCADE)
-    category = models.ManyToManyField("extra.CategoryModel")
+    category = models.ManyToManyField("extra.CategoryModel", related_name='books')
     user = models.ForeignKey(CustomUserModel, on_delete=models.DO_NOTHING, related_name='books')
     active = models.BooleanField()
     loan = models.ForeignKey("loan.LoanModel", on_delete=models.CASCADE, related_name='books')
@@ -52,11 +52,11 @@ class BookmarkModel(models.Model):
 
 class CommentModel(models.Model):
     user = models.ForeignKey(CustomUserModel, on_delete=models.CASCADE)
-    book = models.ForeignKey("book.BookModel", on_delete=models.CASCADE)
+    book = models.ForeignKey("book.BookModel", on_delete=models.CASCADE, related_name='comments')
     title = models.CharField(max_length=16)
     content = models.TextField()
     create = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f'{self.user.username} comment on {self.book.name}'
+        return f'{self.user.user.username} comment on {self.book.name}'
 
