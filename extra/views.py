@@ -39,7 +39,7 @@ def contact_us(request):
 		form = ContactForm(request.POST)
 		if form.is_valid():
 			form.save()
-			return redirect('book:book_list')
+			return redirect('book:index')
 
 	form = ContactForm()
 	return render(request, 'extra/contact_us.html', {'form': form, })

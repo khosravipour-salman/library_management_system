@@ -38,7 +38,7 @@ def sign_in(request):
 
             if user_obj:
                 login(request, user_obj)
-                return redirect('book:book_list')
+                return redirect('book:index')
     
     context = {
         'form': form,
@@ -49,7 +49,7 @@ def sign_in(request):
 def sign_out(request):
     logout(request)
     
-    return redirect('book:book_list')
+    return redirect('book:index')
 
 
 def complete_profile(request):

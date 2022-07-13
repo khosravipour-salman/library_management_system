@@ -24,6 +24,7 @@ class BookModel(models.Model):
     loan = models.ForeignKey("loan.LoanModel", on_delete=models.CASCADE, related_name='books', blank=True, null=True)
     slug = models.SlugField(unique=True, null=True)
     author = models.ManyToManyField("author.AuthorModel")
+    
     objects = models.Manager()
     active_book_manager = ActiveBooksManager()
 

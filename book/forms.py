@@ -1,5 +1,5 @@
 from django import forms
-from book.models import CommentModel
+from book.models import CommentModel, BookModel
 
 
 class AdvanceSearchForm(forms.Form):
@@ -24,3 +24,9 @@ class CommentForm(forms.ModelForm):
 	class Meta:
 		model = CommentModel
 		fields = ('title', 'content', )
+
+
+class BookForm(forms.ModelForm):
+	class Meta:
+		model = BookModel
+		exclude = ('user', 'debt', 'loan', 'slug', )

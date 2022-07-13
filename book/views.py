@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q, Count
 from itertools import chain
-from book.forms import AdvanceSearchForm, CommentForm
+from book.forms import AdvanceSearchForm, CommentForm, BookForm
 from book.models import BookModel, BookmarkModel
 from author.models import AuthorModel
 from accounting.models import CustomUserModel
@@ -138,3 +138,41 @@ def bookmark_list(request):
 	books = bookmark_obj.book.all()
 
 	return render(request, 'book/bookmark_list.html', {'obj_list': books})
+
+
+def staff_book_list(request):
+	book_list_obj = BookModel.active_book_manager.all()
+	return render(request, 'book/list.html', {'obj_list': book_list_obj})
+
+
+def staff_book_detail(request, book_slug):
+	book_obj = get_object_or_404(BookModel, slug=book_slug)
+	return render(request, 'book/staff_book_detail.html', {'obj': book_obj})
+
+
+def staff_book_delete(request, book_slug):
+	book_obj = get_object_or_404(BookModel, slug=book_slug)
+	if request.method == 'POST':
+		book_obj.delete()
+		return redirect('book:book_list')
+
+	return render(request, 'book/confirm_delete.html', {'obj': book_obj})
+
+
+def staff_book_update(request, book_slug):
+	book_obj = get_object_or_404(BookModel, slug=book_slug)
+	user_obj = CustomUserModel.objects.get(user=request.user)
+
+	if request.method == 'POST':
+		form = BookForm(request.POST, request.FILES, instance=book_obj)
+		if form.is_valid():
+			new_form = form.save(commit=False)
+			new_form.user = user_obj
+			new_form.slug = new_form.name
+			new_form.save()
+
+			return redirect('book:book_list')
+		else:
+			print(form.errors)
+	form = BookForm(instance=book_obj)
+	return render(request, 'book/staff_book_edit.html', {'form': form})

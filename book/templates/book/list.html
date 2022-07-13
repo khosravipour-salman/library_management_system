@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Book-list</title>
+</head>
+<body>
+	{% for book_obj in obj_list %}
+		<img src="{{ book_obj.cover.url }}" alt="book_cover"><br>
+		<b>Name: </b>{{ book_obj.name }}
+		<b>Desc: </b>{{ book_obj.desc|truncatewords:10 }}
+		
+		<b>Author: </b>{% for author_obj in book_obj.author.all %}
+			<a href="{% url 'book:book_list_with_parameter' 'author' author_obj.slug %}">
+				{{ author_obj.name }}
+			</a>{% if not forloop.last %},{% endif %}
+		{% endfor %}
+
+		<b>Translator: </b>{{ book_obj.translator }}
+		<b>Publisher: </b>
+		<a href="{% url 'book:book_list_with_parameter' 'publisher' book_obj.publisher.slug %}">
+			{{ book_obj.publisher }}
+		</a>
+
+		<b>Category: </b>{% for category_obj in book_obj.category.all %}
+			<a href="{% url 'book:book_list_with_parameter' 'category' category_obj.slug %}">
+				{{ category_obj.name }}
+			</a>{% if not forloop.last %},{% endif %}
+		{% endfor %}
+		<b>Detail: </b><a href="{{ book_obj.get_absolute_url }}">Link</a>
+		<b>Edit: </b><a href="{% url 'book:book_update' book_obj.slug %}">Link</a>	
+		<b>Delete: </b><a href="{% url 'book:book_delete' book_obj.slug %}">Link</a>		
+		<hr>
+
+	{% endfor %}
+</body>
+</html>

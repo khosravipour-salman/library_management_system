@@ -6,7 +6,7 @@
 
 {% block content %}
 
-<a href="{% url 'book:book_list' %}">Home</a>
+<a href="{% url 'book:index' %}">Home</a>
 {% include 'search_form.html' %}
 
 {% if request.user.is_authenticated %}
