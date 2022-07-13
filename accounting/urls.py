@@ -9,6 +9,7 @@ urlpatterns = [
     path('sign-up/', views.sign_up, name='sign_up'),
     path('sign-in/', views.sign_in, name='sign_in'),
     path('sign-out/', views.sign_out, name='sign_out'),
+    path('show-profile/', views.show_profile, name='show_profile'),
     path('complete-profile/', views.complete_profile, name='complete_profiel'),
 
     # Password change urls

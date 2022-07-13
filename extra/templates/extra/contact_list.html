@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Contact-us</title>
+</head>
+<body>
+{% for obj in obj_list %}
+	<p>email : {{ obj.email }}</p>
+	<p>subject : {{ obj.subject }}</p>
+	<p>message : {{ obj.message }}</p>
+	<br>
+{% endfor %}
+</body>
+</html>

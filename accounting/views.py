@@ -89,6 +89,17 @@ def complete_profile(request):
             form.save()
             django_user_obj.save()
 
-            # return redirect('book:index')
-    form = CompleteProfileForm(instance=user_obj)
+            return redirect('accounting:show_profile')
+
+    form = CompleteProfileForm(instance=user_obj, initial={
+                'first_name': django_user_obj.first_name,
+                'last_name': django_user_obj.last_name,
+                'email': django_user_obj.email, 
+            }
+    )
     return render(request, 'accounting/complete_profile.html', {'form': form})
+
+
+def show_profile(request):
+    context = {'user_obj': CustomUserModel.objects.get(user=request.user)}
+    return render(request, 'accounting/show_profile.html', context)

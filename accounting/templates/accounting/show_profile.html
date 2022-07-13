@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block link %}
+{% endblock %}
+
+{% block title %}
+  Profile
+{% endblock %}
+
+{% block content %}
+  <p>age: {{ user_obj.age }}</p>
+  <p>age: {{ user_obj.age }}</p>
+  <p>phone number: {{ user_obj.phone_number }}</p>
+  <p>gender: {{ user_obj.gender }}</p>
+  <p>address: {{ user_obj.address }}</p>
+  <p>national code: {{ user_obj.national_code }}</p>
+  <p>debt: {{ user_obj.debt.amount }}</p>
+  <p>username: {{ user_obj.user.username }}</p>
+  <p>full-name: {{ user_obj.user.first_name }} {{ user_obj.user.last_name }}</p>
+  <p>email: {{ user_obj.user.email }}</p>
+
+{% endblock %}

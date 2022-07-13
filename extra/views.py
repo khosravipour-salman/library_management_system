@@ -1,7 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from extra.models import CategoryModel, LikeModel
+from extra.models import CategoryModel, LikeModel, Contact
 from book.models import BookModel
 from accounting.models import CustomUserModel
+from extra.forms import ContactForm
 
 
 def categories(request, category_slug=None):
@@ -30,3 +31,20 @@ def dislike_book(request, book_slug):
 	LikeModel.objects.create(book=book_obj, user=user_obj, vote=False)
 
 	return redirect(request.META.get('HTTP_REFERER'))
+
+
+def contact_us(request):
+	if request.method == 'POST':
+	
+		form = ContactForm(request.POST)
+		if form.is_valid():
+			form.save()
+			return redirect('book:book_list')
+
+	form = ContactForm()
+	return render(request, 'extra/contact_us.html', {'form': form, })
+
+
+def contact_list(request):
+	context = {'obj_list': Contact.objects.all()}
+	return render(request, 'extra/contact_list.html', context)
