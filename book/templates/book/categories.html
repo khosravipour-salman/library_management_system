@@ -8,7 +8,7 @@
 	{% include 'search_form.html' %}<br>
 	
 	{% for cat_obj in category_list %}
-		<a href="{% url 'categories_with_param' cat_obj.slug %}">
+		<a href="{% url 'extra:categories_with_param' cat_obj.slug %}">
 			{{ cat_obj }}
 		</a>{% if not forloop.last %}, {% endif %}
 	{% endfor %}

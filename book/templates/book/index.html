@@ -1,13 +1,21 @@
 {% extends 'base.html' %}
 
 {% block title %}
-index
+	index
 {% endblock %}
 
 {% block content %}
 
-<a href="{% url 'book_list' %}">Home</a>{% include 'search_form.html' %}
-<a href="{% url 'advance_search' %}">Advance Search</a>
+<a href="{% url 'book:book_list' %}">Home</a>
+{% include 'search_form.html' %}
+
+{% if request.user.is_authenticated %}
+	<a href="{% url 'accounting:sign_out' %}">Sign-out</a>
+{% else %}
+	Have an account?<a href="{% url 'accounting:sign_in' %}">Sign-in</a>
+	Create an account?<a href="{% url 'accounting:sign_up' %}">Sign-up</a>
+{% endif %}
+<a href="{% url 'book:advance_search' %}">Advance Search</a>
 <hr>
 
 {% if filter_field == 'author' %}
@@ -25,19 +33,19 @@ index
 	<b>Desc: </b>{{ book_obj.desc|truncatewords:10 }}
 	
 	<b>Author: </b>{% for author_obj in book_obj.author.all %}
-		<a href="{% url 'book_list_with_parameter' 'author' author_obj.slug %}">
+		<a href="{% url 'book:book_list_with_parameter' 'author' author_obj.slug %}">
 			{{ author_obj.name }}
 		</a>{% if not forloop.last %},{% endif %}
 	{% endfor %}
 
 	<b>Translator: </b>{{ book_obj.translator }}
 	<b>Publisher: </b>
-	<a href="{% url 'book_list_with_parameter' 'publisher' book_obj.publisher.slug %}">
+	<a href="{% url 'book:book_list_with_parameter' 'publisher' book_obj.publisher.slug %}">
 		{{ book_obj.publisher }}
 	</a>
 
 	<b>Category: </b>{% for category_obj in book_obj.category.all %}
-		<a href="{% url 'book_list_with_parameter' 'category' category_obj.slug %}">
+		<a href="{% url 'book:book_list_with_parameter' 'category' category_obj.slug %}">
 			{{ category_obj.name }}
 		</a>{% if not forloop.last %},{% endif %}
 	{% endfor %}

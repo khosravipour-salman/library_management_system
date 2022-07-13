@@ -66,6 +66,9 @@ TEMPLATES = [
         'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
+            'libraries': {
+                'extra_app_tags': 'extra.templatetags.custom_tags',
+            }, 
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
@@ -130,6 +133,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
+LOGIN_REDIRECT_URL = 'book:book_list'
+LOGIN_URL = 'accounting:sign_in'
+
 # SMTP config
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -138,7 +144,6 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'mailserver.django@gmail.com'
 EMAIL_HOST_PASSWORD = 'dcxtuzyynthxokwi'
-
 
 # Celery configuration
 imports = ("loan.tasks", )

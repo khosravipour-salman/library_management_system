@@ -101,18 +101,6 @@ def advance_search(request):
 	return render(request, 'book/advance_search.html', {'obj_list': book_obj_list})
 
 
-def categories(request, category_slug=None):
-	category_list = CategoryModel.objects.all()
-	context = {
-		'category_list': category_list,
-	}
-
-	cat_obj = CategoryModel.objects.get(slug=category_slug) if category_slug else None
-	if cat_obj is not None: context.update({'obj_list': cat_obj.books.all()}) 
-
-	return render(request, 'book/categories.html', context)
-
-
 def add_comment(request, book_slug):
 	book_obj = get_object_or_404(BookModel, slug=book_slug)
 	user_obj = CustomUserModel.objects.get(user=request.user)
@@ -124,7 +112,7 @@ def add_comment(request, book_slug):
 			new_form.user = user_obj
 			new_form.book = book_obj
 			new_form.save()
-			return redirect('book_detail', slug=book_obj.slug)
+			return redirect('book:book_detail', slug=book_obj.slug)
 
 	form = CommentForm()
 	return render(request, 'book/add_comment.html', {'form': form})

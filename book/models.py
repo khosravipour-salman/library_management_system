@@ -28,8 +28,14 @@ class BookModel(models.Model):
     active_book_manager = ActiveBooksManager()
 
 
+    def get_total_likes(self):
+        return self.likes.count()
+
+    def get_total_dis_likes(self):
+        return self.dis_likes.users.count()
+
     def get_absolute_url(self):
-        return reverse('book_detail', kwargs={'slug': self.slug})
+        return reverse('book:book_detail', kwargs={'slug': self.slug})
 
     def save(self, *args, **kwargs):
         if not self.slug:

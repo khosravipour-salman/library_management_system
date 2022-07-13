@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block content %}
-	<form method="get" action="{% url 'advance_search' %}">
+	<form method="get" action="{% url 'book:advance_search' %}">
 		<input type="text" name="bookname_icontain" placeholder="Book Name Contains ...">
 		<input type="text" name="bookname_exact" placeholder="Book Name Exact ...">
 

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from extra.models import PublisherModel, CategoryModel
+from extra.models import PublisherModel, CategoryModel, LikeModel
 
 class PublisherAdmin(admin.ModelAdmin):
     list_display = ("name", )
@@ -13,3 +13,4 @@ class CategoryAdmin(admin.ModelAdmin):
 
 admin.site.register(PublisherModel, PublisherAdmin)
 admin.site.register(CategoryModel, CategoryAdmin)
+admin.site.register(LikeModel)

@@ -1,10 +1,13 @@
 {% extends 'base.html' %}
 
+{% load custom_tags %}
+
 {% block title %}
-Detail
+	Detail
 {% endblock %}
 
 {% block content %}
+	
 	<img src="{{ book_obj.cover.url }}" alt="book_cover">
 	<b>Name: </b>{{ book_obj.name }}
 	<b>Desc: </b>{{ book_obj.desc }}
@@ -19,10 +22,26 @@ Detail
 	<b>Category: </b>{% for category_obj in book_obj.category.all %}
 		{{ category_obj.name }}{% if not forloop.last %},{% endif %}
 	{% endfor %}
+
+	<b>Likes: </b>{% total_likes_dislikes book_obj 'True' %}
+	<b>Dis-likes: </b>{% total_likes_dislikes book_obj 'False' %}
 	
 	<hr>
-		<a href="{% url 'add_comment' book_obj.slug %}">Leave a comment</a>
-		<a href="{% url 'add_to_bookmark' book_obj.slug %}">Add to bookmark</a>
+		<a href="{% url 'book:add_comment' book_obj.slug %}">
+			Leave a comment
+		</a>
+
+		<a href="{% url 'book:add_to_bookmark' book_obj.slug %}">
+			Add to bookmark
+		</a>
+
+		<a href="{% url 'extra:like_book' book_obj.slug %}">
+			Like
+		</a>
+
+		<a href="{% url 'extra:dislike_book' book_obj.slug %}">
+			Dislike
+		</a>
 	<hr>
 
 	{% if similar_books %}

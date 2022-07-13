@@ -5,19 +5,19 @@
 	<b>Desc: </b>{{ book_obj.desc|truncatewords:10 }}
 	
 	<b>Author: </b>{% for author_obj in book_obj.author.all %}
-		<a href="{% url 'book_list_with_parameter' 'author' author_obj.slug %}">
+		<a href="{% url 'book:book_list_with_parameter' 'author' author_obj.slug %}">
 			{{ author_obj.name }}
 		</a>{% if not forloop.last %},{% endif %}
 	{% endfor %}
 
 	<b>Translator: </b>{{ book_obj.translator }}
 	<b>Publisher: </b>
-	<a href="{% url 'book_list_with_parameter' 'publisher' book_obj.publisher.slug %}">
+	<a href="{% url 'book:book_list_with_parameter' 'publisher' book_obj.publisher.slug %}">
 		{{ book_obj.publisher }}
 	</a>
 
 	<b>Category: </b>{% for category_obj in book_obj.category.all %}
-		<a href="{% url 'book_list_with_parameter' 'category' category_obj.slug %}">
+		<a href="{% url 'book:book_list_with_parameter' 'category' category_obj.slug %}">
 			{{ category_obj.name }}
 		</a>{% if not forloop.last %},{% endif %}
 	{% endfor %}

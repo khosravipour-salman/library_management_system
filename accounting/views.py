@@ -10,10 +10,7 @@ from book.models import BookmarkModel
 
 def sign_up(request):
     form = UserCreationForm()
-    context = {
-        'form': form,
-    }
-
+    
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
@@ -22,14 +19,15 @@ def sign_up(request):
             user_obj = CustomUserModel.objects.create(user=user_obj, debt=debt_obj)
             BookmarkModel.objects.create(user=user_obj)
             return redirect('accounting:sign_in')
+
+    context = {
+        'form': form,
+    }
     return render(request, 'accounting/sign_up.html', context)
 
 
 def sign_in(request):
     form = LoginForm()
-    context = {
-        'form': form,
-    }
 
     if request.method == 'POST':
         form = LoginForm(request.POST)
@@ -40,14 +38,18 @@ def sign_in(request):
 
             if user_obj:
                 login(request, user_obj)
-                # return redirect('book:index')
-
+                return redirect('book:book_list')
+    
+    context = {
+        'form': form,
+    }
     return render(request, 'accounting/sign_in.html', context)
 
 
 def sign_out(request):
     logout(request)
-    # return redirect('book:index')
+    
+    return redirect('book:book_list')
 
 
 def complete_profile(request):

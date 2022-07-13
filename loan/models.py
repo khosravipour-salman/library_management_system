@@ -13,6 +13,7 @@ class LoanModel(models.Model):
     start_date = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=1, choices=LOAN_STATUS)
 
+
     def __str__(self):
         return f'{self.user.user.username} has {self.books} and loan is in {self.status} faze'
 
