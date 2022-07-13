@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block title %}
-	Edit-book
+	Add-book
 {% endblock %}
 
 {% block content %}
@@ -9,6 +9,6 @@
 		{% csrf_token %}
 		{{ form.as_p }}
 
-		<input type="submit" value="Edit">
+		<input type="submit" value="Create">
 	</form>
 {% endblock %}

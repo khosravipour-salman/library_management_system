@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Author-list</title>
+</head>
+<body>
+	<h2><a href="{% url 'author:author_create' %}">Create</a></h2>
+	{% for author_obj in obj_list %}
+		<b>Name: </b>{{ author_obj.name }}
+		<b>Desc: </b>{{ author_obj.desc }}
+		<b>Books: </b>
+		{% for book_obj in author_obj.books.all %}
+				{{ book_obj.name}}{% if not forloop.last %}, {% endif %}
+		{% endfor %}
+
+		<a href="{% url 'author:author_delete' author_obj.slug %}">Delete</a>
+		<a href="{% url 'author:author_update' author_obj.slug %}">edit</a>
+		<hr>
+	{% endfor %}
+</body>
+</html>

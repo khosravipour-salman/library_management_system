@@ -23,7 +23,7 @@ class BookModel(models.Model):
     active = models.BooleanField()
     loan = models.ForeignKey("loan.LoanModel", on_delete=models.CASCADE, related_name='books', blank=True, null=True)
     slug = models.SlugField(unique=True, null=True)
-    author = models.ManyToManyField("author.AuthorModel")
+    author = models.ManyToManyField("author.AuthorModel", related_name='books')
     
     objects = models.Manager()
     active_book_manager = ActiveBooksManager()

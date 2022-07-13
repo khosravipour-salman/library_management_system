@@ -142,12 +142,7 @@ def bookmark_list(request):
 
 def staff_book_list(request):
 	book_list_obj = BookModel.active_book_manager.all()
-	return render(request, 'book/list.html', {'obj_list': book_list_obj})
-
-
-def staff_book_detail(request, book_slug):
-	book_obj = get_object_or_404(BookModel, slug=book_slug)
-	return render(request, 'book/staff_book_detail.html', {'obj': book_obj})
+	return render(request, 'book/staff_book_list.html', {'obj_list': book_list_obj})
 
 
 def staff_book_delete(request, book_slug):
@@ -157,6 +152,22 @@ def staff_book_delete(request, book_slug):
 		return redirect('book:book_list')
 
 	return render(request, 'book/confirm_delete.html', {'obj': book_obj})
+
+
+def staff_book_create(request):
+	user_obj = CustomUserModel.objects.get(user=request.user)
+
+	if request.method == 'POST':
+		form = BookForm(request.POST, request.FILES)
+		if form.is_valid():
+			new_form = form.save(commit=False)
+			new_form.user = user_obj
+			new_form.save()
+
+			return redirect('book:book_list')
+	
+	form = BookForm()
+	return render(request, 'book/staff_book_create.html', {'form': form})
 
 
 def staff_book_update(request, book_slug):

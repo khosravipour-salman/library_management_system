@@ -14,6 +14,7 @@ urlpatterns = [
 
 	# staff routes
 	path('book-list/', views.staff_book_list, name='book_list'),
+	path('book-create/', views.staff_book_create, name='book_create'),
 	path('book-delete/<slug:book_slug>/', views.staff_book_delete, name='book_delete'),
 	path('book-update/<slug:book_slug>/', views.staff_book_update, name='book_update'),
 ]

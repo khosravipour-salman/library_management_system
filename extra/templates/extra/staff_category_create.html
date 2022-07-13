@@ -1,14 +1,14 @@
 {% extends 'base.html' %}
 
 {% block title %}
-	Edit-book
+	Add-category
 {% endblock %}
 
 {% block content %}
-	<form method="POST" enctype="multipart/form-data">
+	<form method="POST">
 		{% csrf_token %}
 		{{ form.as_p }}
 
-		<input type="submit" value="Edit">
+		<input type="submit" value="Create">
 	</form>
 {% endblock %}

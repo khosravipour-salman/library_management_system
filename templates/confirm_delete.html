@@ -6,6 +6,10 @@
 	<title>Confirm-delete</title>
 </head>
 <body>
-	<form method="POST" ></form>
+	<form method="POST">
+		{% csrf_token %}
+		<p><b>{{ obj.name }}</b> object will be deleted permanently! Are you sure?</p>
+		<input type="submit" name="Yes">
+	</form>
 </body>
 </html>
