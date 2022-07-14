@@ -18,12 +18,39 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
+from django.urls import path, include
+from django.contrib.auth.models import User
+from accounting.models import CustomUserModel
+from rest_framework import serializers, viewsets, routers
+
+
+class CustomUserSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = CustomUserModel
+        fields = ['age', 'national_code', ]
+
+
+class CustomUserViewSet(viewsets.ModelViewSet):
+    queryset = CustomUserModel.objects.all()
+    serializer_class = CustomUserSerializer
+
+
+router = routers.DefaultRouter()
+router.register(r'users', CustomUserViewSet)
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('accounting.urls')),
     path('', include('book.urls')),
     path('', include('extra.urls')),
     path('', include('author.urls')),
+    path('', include('loan.urls')),
+    
+    # rest routes
+    path('', include(router.urls)),
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

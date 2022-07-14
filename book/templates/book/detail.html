@@ -42,6 +42,17 @@
 		<a href="{% url 'extra:dislike_book' book_obj.slug %}">
 			Dislike
 		</a>
+
+		{% if book_obj not in loan_obj.books.all %}
+		<a href="{% url 'loan:add_to_loan' book_obj.slug %}">
+			Add to loan
+		</a>
+		{% else %}
+		<a href="{% url 'loan:remove_from_loan' book_obj.slug %}">
+			Remove from loan
+		</a>
+		{% endif %}
+
 	<hr>
 
 	{% if similar_books %}

@@ -8,6 +8,7 @@ from author.models import AuthorModel
 from accounting.models import CustomUserModel
 from extra.models import PublisherModel
 from extra.models import CategoryModel
+from loan.models import LoanModel
 
 
 def book_list(request):
@@ -66,9 +67,17 @@ def book_detail(request, slug):
 	similar_books = BookModel.active_book_manager.filter(category__in=book_category_ids).exclude(id=book_obj.id)
 	similar_books = similar_books.annotate(same_cats=Count('category')).order_by('-same_cats','-create')[:4]
 
+	user_obj = 	user_obj = CustomUserModel.objects.get(user=request.user)
+	loan_obj_list = LoanModel.objects.filter(user=user_obj, status='C')
+	if not loan_obj_list.exists():
+		loan_obj = LoanModel.objects.create(user=user_obj, status='C')
+
+	else: loan_obj = loan_obj_list[0]
+	
 	context = {
 		'book_obj': book_obj,
 		'similar_books': similar_books,
+		'loan_obj': loan_obj,
 	}
 	return render(request, 'book/detail.html', context)
 
